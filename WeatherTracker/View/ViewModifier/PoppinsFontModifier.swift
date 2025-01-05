@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension Text {
+extension View {
     func poppinsFont(size: CGFloat, weight: Font.Weight = .regular) -> some View {
         modifier(PoppinsFontModifier(size: size, weight: weight))
     }

@@ -11,37 +11,40 @@ struct HomeWeatherView: View {
     @State private var viewModel = HomeWeatherViewModel()
     
     var body: some View {
-        NavigationStack {
-            content
-                .searchable(text: $viewModel.searchText, prompt: "Search for a city")
-                .onSubmit(of: .search) {
-                    viewModel.updateSearchText()
+        content
+            .onChange(of: viewModel.userInputText, { _, _ in
+                viewModel.updateSearchText()
+            })
+            .task(id: viewModel.searchText) {
+                guard !viewModel.searchText.isEmpty else {
+                    return
                 }
-                .onChange(of: viewModel.userInputText, { _, _ in
-                    viewModel.updateSearchText()
-                })
-                .task(id: viewModel.searchText) {
-                    guard !viewModel.searchText.isEmpty else {
-                        return
-                    }
-                    await viewModel.search()
-                }
-                .task {
-                    await viewModel.fetchSavedCity()
-                }
-                .alert("Error Fetching Weather Details", isPresented: $viewModel.showAlert) {
-                    Button("OK", role: .cancel) { }
-                } message: {
-                    Text("Please try again Later")
-                }
-        }
+                await viewModel.search()
+            }
+            .task {
+                await viewModel.fetchSavedCity()
+            }
+            .alert("Error Fetching Weather Details", isPresented: $viewModel.showAlert) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text("Please try again Later")
+            }
     }
 }
 
 // MARK: - Subviews
 extension HomeWeatherView {
     var content: some View {
-        ZStack {
+        VStack {
+            SearchField(
+                text: $viewModel.userInputText,
+                searchAction: viewModel.updateSearchText,
+                title: "Location Search",
+                prompt: "Search Location"
+            )
+            .padding(.horizontal, 24)
+            .padding(.top, 44)
+            
             switch viewModel.state {
             case .loading:
                 ProgressView()
@@ -52,10 +55,7 @@ extension HomeWeatherView {
             case .cities(let cities):
                 citiesList(cities)
                 
-            case .error:
-                EmptyView()
-                
-            case .noCityResults:
+            case .error, .noCityResults:
                 EmptyView()
                 
             case .noCitySelected:
@@ -68,6 +68,8 @@ extension HomeWeatherView {
                     }
             }
         }
+        .frame(maxHeight: .infinity, alignment: .top)
+        .dismissKeyboardOnDrag()
         .animation(.easeInOut, value: viewModel.state)
     }
     
@@ -80,7 +82,7 @@ extension HomeWeatherView {
                 .poppinsFont(size: 15, weight: .semibold)
         }
         .foregroundStyle(Color.primaryText)
-        .frame(maxHeight: .infinity, alignment: .top)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .padding(.top, 240)
         
     }
