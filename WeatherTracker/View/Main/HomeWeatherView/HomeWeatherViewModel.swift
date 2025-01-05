@@ -26,6 +26,7 @@ final class HomeWeatherViewModel {
     func onSelectCity(_ city: City) {
         weatherService.saveCity(cityId: city.id)
         state = .citySelected(city)
+        userInputText = ""
     }
     
     func fetchSavedCity() async {

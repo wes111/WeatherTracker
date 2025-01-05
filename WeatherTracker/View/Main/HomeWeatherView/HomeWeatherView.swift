@@ -9,11 +9,17 @@ import SwiftUI
 
 struct HomeWeatherView: View {
     @State private var viewModel = HomeWeatherViewModel()
+    @FocusState private var isFocused: Bool
     
     var body: some View {
         content
             .onChange(of: viewModel.userInputText, { _, _ in
                 viewModel.updateSearchText()
+            })
+            .onChange(of: viewModel.state, { _, newValue in
+                if case .citySelected = newValue {
+                    isFocused = false
+                }
             })
             .task(id: viewModel.searchText) {
                 guard !viewModel.searchText.isEmpty else {
@@ -37,6 +43,7 @@ extension HomeWeatherView {
     var content: some View {
         VStack {
             SearchField(
+                isFocused: $isFocused,
                 text: $viewModel.userInputText,
                 searchAction: viewModel.updateSearchText,
                 title: "Location Search",

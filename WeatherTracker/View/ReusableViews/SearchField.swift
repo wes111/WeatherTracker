@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SearchField: View {
-    @FocusState private var isFocused: Bool
+    @FocusState.Binding var isFocused: Bool
     @Binding var text: String
     let searchAction: () -> Void
     let title: String
@@ -57,8 +57,10 @@ struct SearchField: View {
 // MARK: - Preview
 #Preview {
     @Previewable @State var text = ""
+    @Previewable @FocusState var isFocused: Bool
     
     SearchField(
+        isFocused: $isFocused,
         text: $text,
         searchAction: { return },
         title: "Search Field",
