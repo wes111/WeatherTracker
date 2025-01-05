@@ -35,11 +35,14 @@ struct WeatherService: WeatherServiceProtocol {
     }
     
     func saveCity(cityId: Int) {
-        UserDefaults.standard.set(cityId, forKey: Self.userDefaultsCityKey)
+        UserDefaults.standard.set(String(cityId), forKey: Self.userDefaultsCityKey)
     }
 
     func fetchSavedCityId() -> Int? {
-        let cityId = UserDefaults.standard.integer(forKey: Self.userDefaultsCityKey)
-        return cityId == 0 ? nil : cityId
+        guard let cityIdString = UserDefaults.standard.string(forKey: Self.userDefaultsCityKey),
+              let cityId = Int(cityIdString) else {
+            return nil
+        }
+        return cityId
     }
 }

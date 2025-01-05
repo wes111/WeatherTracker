@@ -5,10 +5,9 @@
 //  Created by Wesley Luntsford on 1/4/25.
 //
 
+import Foundation
 import Testing
 @testable import WeatherTracker
-
-import Foundation
 
 @Suite(.serialized) struct WeatherTrackerTests {
     static let endpoint = WeatherAPIEndpoint.searchCities(query: "London")
