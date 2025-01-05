@@ -15,7 +15,7 @@ protocol WeatherServiceProtocol: Sendable {
 }
 
 struct WeatherService: WeatherServiceProtocol {
-    private static let userDefaultsCityKey = "selectedCity"
+    static let userDefaultsCityKey = "selectedCity"
     private let networkService: NetworkService
     
     init(networkService: NetworkService = NetworkServiceDefault()) {

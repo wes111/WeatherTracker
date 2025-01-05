@@ -12,14 +12,29 @@ protocol NetworkService: Sendable {
     func fetch<T: Decodable>(_ endpoint: WeatherAPIEndpoint) async throws -> T
 }
 
+protocol URLSessionProtocol: Sendable {
+    func data(from url: URL) async throws -> (Data, URLResponse)
+}
+
+protocol JSONDecoderProtocol: Sendable {
+    func decode<T: Decodable>(_ type: T.Type, from data: Data) throws -> T
+}
+
 struct NetworkServiceDefault: NetworkService {
+    private let session: URLSessionProtocol
+    private let decoder: JSONDecoderProtocol
+    
+    init(session: URLSessionProtocol = URLSession.shared, decoder: JSONDecoderProtocol = JSONDecoder()) {
+        self.session = session
+        self.decoder = decoder
+    }
     
     func fetch<T: Decodable>(_ endpoint: WeatherAPIEndpoint) async throws -> T {
         guard let url = endpoint.url else {
             throw NetworkError.invalidURL
         }
         
-        let (data, response) = try await URLSession.shared.data(from: url)
+        let (data, response) = try await session.data(from: url)
         
         guard let httpResponse = response as? HTTPURLResponse else {
             throw NetworkError.invalidResponse
@@ -29,6 +44,7 @@ struct NetworkServiceDefault: NetworkService {
             throw NetworkError.invalidStatusCode(httpResponse.statusCode)
         }
         
-        return try JSONDecoder().decode(T.self, from: data)
+        return try decoder.decode(T.self, from: data)
     }
 }
+

@@ -25,7 +25,7 @@ struct CityWeatherView: View {
 extension CityWeatherView {
     var overviewStack: some View {
         VStack(spacing: 0) {
-            AsyncImageView(imageURL: viewModel.weather.conditionImageName)
+            AsyncImageView(imageURL: viewModel.conditionImageName)
                 .frame(maxHeight: 133)
             
             HStack(alignment: .center, spacing: 11) {

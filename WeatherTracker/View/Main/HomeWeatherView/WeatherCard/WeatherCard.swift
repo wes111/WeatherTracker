@@ -35,6 +35,7 @@ private extension WeatherCard {
             }
             .foregroundStyle(Color.primaryText)
             .padding(.vertical, 16)
+            .multilineTextAlignment(.leading)
             
             Spacer()
             

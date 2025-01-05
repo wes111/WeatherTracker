@@ -8,7 +8,11 @@
 import Foundation
 
 struct CityWeatherViewModel {
-    let weather: Weather
+    private let weather: Weather
+    
+    init(weather: Weather) {
+        self.weather = weather
+    }
     
     var cityName: String {
         weather.cityName

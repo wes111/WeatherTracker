@@ -35,8 +35,6 @@
 			membershipExceptions = (
 				Info.plist,
 				Tests/WeatherTrackerTests/WeatherTrackerTests.swift,
-				Tests/WeatherTrackerUITests/WeatherTrackerUITests.swift,
-				Tests/WeatherTrackerUITests/WeatherTrackerUITestsLaunchTests.swift,
 			);
 			target = EE5A8CDB2D2974CC005C6277 /* WeatherTracker */;
 		};
@@ -47,14 +45,6 @@
 			);
 			target = EE5A8CEB2D2974CD005C6277 /* WeatherTrackerTests */;
 		};
-		EE5A8D142D2974EE005C6277 /* Exceptions for "WeatherTracker" folder in "WeatherTrackerUITests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Tests/WeatherTrackerUITests/WeatherTrackerUITests.swift,
-				Tests/WeatherTrackerUITests/WeatherTrackerUITestsLaunchTests.swift,
-			);
-			target = EE5A8CF52D2974CD005C6277 /* WeatherTrackerUITests */;
-		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -63,7 +53,6 @@
 			exceptions = (
 				EE5A8D122D2974EE005C6277 /* Exceptions for "WeatherTracker" folder in "WeatherTracker" target */,
 				EE5A8D132D2974EE005C6277 /* Exceptions for "WeatherTracker" folder in "WeatherTrackerTests" target */,
-				EE5A8D142D2974EE005C6277 /* Exceptions for "WeatherTracker" folder in "WeatherTrackerUITests" target */,
 			);
 			path = WeatherTracker;
 			sourceTree = "<group>";

@@ -51,6 +51,7 @@ extension HomeWeatherView {
                 
             case .weather(let weather):
                 CityWeatherView(viewModel: .init(weather: weather))
+                    .padding(20)
                 
             case .cities(let cities):
                 citiesList(cities)
@@ -84,7 +85,6 @@ extension HomeWeatherView {
         .foregroundStyle(Color.primaryText)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .padding(.top, 240)
-        
     }
     
     func citiesList(_ cities: [City]) -> some View {
@@ -99,6 +99,7 @@ extension HomeWeatherView {
                 }
             }
             .padding(.horizontal, 20)
+            .padding(.top, 32)
         }
         .scrollBounceBehavior(.basedOnSize, axes: [.vertical])
     }
